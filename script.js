@@ -72,16 +72,21 @@ const materias = [
   { id: "derechoInformatico", nombre: "Derecho Informático", anio: 5, cuatrimestre: 2, desbloquea: [] },
 ];
 
-// Estado guardado en localStorage { id: {estado: "aprobada"|"final-previo"|"cursando", nota?, fecha? } }
 const estadoMaterias = JSON.parse(localStorage.getItem("estadoMaterias") || "{}");
 
 const contenedorGeneral = document.getElementById("contenedor-general");
 const listaFinales = document.getElementById("lista-finales-previos");
+const resetBtn = document.getElementById("resetEstado");
+
+resetBtn.addEventListener("click", () => {
+  if (confirm("¿Querés resetear todas las materias? Se perderán los datos guardados.")) {
+    localStorage.removeItem("estadoMaterias");
+    location.reload();
+  }
+});
 
 function estaDesbloqueada(id) {
   // Una materia está desbloqueada si todas las materias que la desbloquean están aprobadas.
-  // Es decir: para la materia M, la desbloquean materias X que deben estar aprobadas para poder hacer click.
-  // NOTA: aquí invertimos la lógica: miramos las materias que desbloquean a 'id' y verificamos si están aprobadas.
   return materias
     .filter(m => m.desbloquea.includes(id))
     .every(m => estadoMaterias[m.id]?.estado === "aprobada");
@@ -91,7 +96,6 @@ function render() {
   contenedorGeneral.innerHTML = "";
   const agrupadas = {};
 
-  // Agrupar materias por año y cuatrimestre
   for (const m of materias) {
     const clave = `Año ${m.anio} - ${m.cuatrimestre}° Cuatrimestre`;
     if (!agrupadas[clave]) agrupadas[clave] = [];
@@ -109,8 +113,6 @@ function render() {
       div.className = "materia";
       div.textContent = m.nombre;
       const estado = estadoMaterias[m.id];
-
-      // Ver si está desbloqueada (si no tiene requisitos o están aprobados)
       const desbloqueada = estaDesbloqueada(m.id) || !materias.some(mat => mat.desbloquea.includes(m.id));
 
       if (!estado) {
@@ -126,7 +128,6 @@ function render() {
         div.onclick = () => clickMateria(m);
       }
 
-      // Si tiene final previo mostrar fecha
       if (estado?.estado === "final-previo" && estado.fecha) {
         const small = document.createElement("small");
         small.className = "vence";
@@ -155,7 +156,7 @@ function clickMateria(materia) {
 
   const opcion = prompt(`${msg}\nIngrese:\n1 para Aprobar\n2 para Final Previo\n3 para Cursando\n4 para Quitar Estado\n(Cancelar para salir)`);
 
-  if (opcion === null) return; // cancelar
+  if (opcion === null) return;
 
   switch (opcion) {
     case "1":
