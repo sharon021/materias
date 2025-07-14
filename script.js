@@ -6,7 +6,8 @@
     { id: "3.4.077", nombre: "Programación III", correlativas: ["3.4.215"] },
     { id: "3.4.215", nombre: "Teoría de la Computación", correlativas: [] },
     { id: "3.4.164", nombre: "Sistemas de Información I", correlativas: ["3.4.207"] },
-    { id: "3.4.207", nombre: "Sistemas de Información II", correlativas: [] },
+    { id: "3.4.207", nombre: "Sistemas de Información II", correlativas: ["3.4.089", "3.4.094", "3.4.211", "3.4.214"] },
+    {id: "3.4.089",	nombre: "Dirección de Proyectos Informáticos", correlativas: [] },
     { id: "3.4.072", nombre: "Arquitectura de Computadores", correlativas: ["3.4.207"] },
     { id: "3.1.050", nombre: "Elementos de Álgebra y Geometría", correlativas: ["3.1.051"] },
     { id: "3.1.051", nombre: "Álgebra", correlativas: ["3.1.052"] },
@@ -54,7 +55,7 @@
     "Segundo año - 2° Cuatrimestre": ["3.4.077", "3.4.208", "3.4.078", "3.4.209", "3.1.054"],
     "Tercer año - 1° Cuatrimestre": ["3.4.210", "3.4.211", "3.4.212", "3.4.213", "3.1.049", "2.4.216"],
     "Tercer año - 2° Cuatrimestre": ["3.4.082", "3.4.214", "3.1.055", "3.4.215", "3.1.056"],
-    "Cuarto año - 1° Cuatrimestre": ["3.4.216", "3.4.089", "3.4.217", "3.4.092", "3.1.025"],
+    "Cuarto año - 1° Cuatrimestre": ["3.4.216", "3.4.089", "3.4.217", "3.4.092", "3.1.025","3.4.089"],
     "Cuarto año - 2° Cuatrimestre": ["optativa1", "3.4.218", "3.4.086", "3.4.096", "3.4.219", "pps06"],
     "Quinto año - 1° Cuatrimestre": ["optativa2", "3.4.094", "3.4.220", "3.4.100", "3.4.098"],
     "Quinto año - 2° Cuatrimestre": ["optativa3", "3.4.221", "3.4.135", "2.3.056"]
