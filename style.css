@@ -1,0 +1,28 @@
+body {
+  font-family: sans-serif;
+  text-align: center;
+  padding: 2rem;
+  background-color: #f0f0f0;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(10, 40px);
+  grid-template-rows: repeat(10, 40px);
+  gap: 5px;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.grid-item {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  border: 1px solid #ccc;
+  transition: background-color 0.3s;
+  cursor: pointer;
+}
+
+.grid-item.active {
+  background-color: #4caf50;
+}
