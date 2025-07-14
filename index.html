@@ -2,27 +2,28 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Plan de estudio de Ingeniería en Informática</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Malla Interactiva - Ingeniería en Informática</title>
+  <link rel="stylesheet" href="style.css?v=8" />
 </head>
 <body>
-  <h1>Plan de estudio de Ingeniería en Informática</h1>
+  <h1>Malla Interactiva</h1>
 
   <div id="resumen">
-    <p>Total materias: <span id="total-materias">0</span></p>
-    <p>Materias aprobadas: <span id="materias-aprobadas">0</span></p>
-    <p>Materias con final previo: <span id="materias-final-previo">0</span></p>
-    <p>Promedio general: <span id="promedio-general">0</span></p>
+    <div id="totalMaterias"></div>
+    <div id="materiasAprobadas"></div>
+    <div id="materiasFinalPrevio"></div>
+    <div id="materiasCursando"></div>
+    <div id="promedio"></div>
+  </div>
+
+  <div id="finales-previos-container">
+    <h3>Fechas de vencimiento de finales previos</h3>
+    <ul id="lista-finales-previos"></ul>
   </div>
 
   <div id="contenedor-general"></div>
 
-  <div id="finales-previos-container">
-    <h3>Finales previos y sus fechas de vencimiento</h3>
-    <ul id="lista-finales-previos"></ul>
-  </div>
-
-  <script src="script.js"></script>
+  <script src="script.js?v=8"></script>
 </body>
 </html>
