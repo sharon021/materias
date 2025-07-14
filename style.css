@@ -1,162 +1,118 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
 body {
-  font-family: "Segoe UI", sans-serif;
-  background-color: #f9fafd;
-  color: #223;
-  padding: 40px 20px;
-  line-height: 1.6;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f4f8;
+  margin: 20px;
+  color: #333;
 }
 
 h1 {
   text-align: center;
-  font-size: 2.8rem;
-  margin-bottom: 40px;
-  color: #345;
+  color: #2c3e50;
+  margin-bottom: 10px;
 }
 
 #resumen {
-  max-width: 900px;
-  margin: 0 auto 40px;
-  padding: 20px;
-  background: #e5f1ff;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  gap: 20px;
-  font-weight: 600;
-  font-size: 1.1rem;
-}
-
-#finales-previos-container {
-  max-width: 900px;
-  margin: 0 auto 40px;
-  background: #fff6f3;
-  padding: 20px 30px;
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-  color: #6c3333;
-}
-
-#finales-previos-container h3 {
+  text-align: center;
   margin-bottom: 15px;
-  font-size: 1.5rem;
-  border-bottom: 2px solid #c66;
-  padding-bottom: 8px;
-}
-
-#finales-previos-container ul {
-  list-style: none;
-  padding-left: 20px;
-}
-
-#finales-previos-container li {
-  margin-bottom: 8px;
+  font-weight: 600;
   font-size: 1rem;
+  color: #34495e;
+}
+
+#resetEstado {
+  display: block;
+  margin: 10px auto 20px auto;
+  padding: 8px 18px;
+  font-size: 1rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+#resetEstado:hover {
+  background-color: #c0392b;
 }
 
 #contenedor-general > div {
-  margin-bottom: 50px;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  margin-bottom: 30px;
 }
 
-#contenedor-general h2 {
-  font-size: 1.8rem;
-  margin-bottom: 16px;
-  border-left: 5px solid #345;
-  padding-left: 14px;
-  color: #345;
+h2 {
+  color: #34495e;
+  border-bottom: 2px solid #2980b9;
+  padding-bottom: 6px;
+  margin-bottom: 15px;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
 }
 
 .materia {
-  background: #e0ecff;
-  border-radius: 15px;
-  padding: 15px 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  text-align: center;
+  background: #3498db;
+  color: white;
+  padding: 14px 10px;
+  border-radius: 10px;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
-  min-height: 90px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  user-select: none;
+  box-shadow: 0 4px 7px rgba(52, 152, 219, 0.5);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  font-weight: 700;
+  font-size: 0.9rem;
+  position: relative;
 }
 
 .materia:hover:not(.bloqueada) {
-  background: #6ba8ff;
-  color: white;
-  transform: translateY(-4px);
-  border-color: #4a8de0;
+  background-color: #2980b9;
+  box-shadow: 0 6px 10px rgba(41, 128, 185, 0.7);
 }
 
-.materia.bloqueada {
-  background: #ccd8e0;
-  color: #789;
-  cursor: default;
+.bloqueada {
+  background: #bdc3c7;
+  color: #7f8c8d;
+  cursor: not-allowed;
   box-shadow: none;
-  border-color: #b0c0cc;
 }
 
-.materia.aprobada {
-  background: #4caf50;
-  color: white;
-  border-color: #388e3c;
+.aprobada {
+  background: #27ae60;
+  box-shadow: 0 4px 7px rgba(39, 174, 96, 0.6);
 }
 
-.materia.final-previo {
-  background: #fdd835;
-  color: #333;
-  border-color: #fbc02d;
+.final-previo {
+  background: #f39c12;
+  box-shadow: 0 4px 7px rgba(243, 156, 18, 0.6);
 }
 
-.materia.cursando {
-  background: #29b6f6;
-  color: white;
-  border-color: #0288d1;
+.cursando {
+  background: #8e44ad;
+  box-shadow: 0 4px 7px rgba(142, 68, 173, 0.6);
 }
 
 .materia small.vence {
-  font-size: 0.75rem;
-  margin-top: 8px;
-  color: #222;
+  position: absolute;
+  bottom: 5px;
+  right: 8px;
+  font-size: 0.7rem;
   font-weight: 600;
+  color: #fff;
+  opacity: 0.85;
 }
 
-@media (max-width: 600px) {
-  #resumen {
-    flex-direction: column;
-    align-items: center;
-    gap: 15px;
-    padding: 20px;
-  }
+#lista-finales-previos {
+  list-style-type: none;
+  padding-left: 0;
+  max-width: 480px;
+  margin: 0 auto 40px auto;
+  font-weight: 600;
+  color: #c0392b;
+}
 
-  .grid {
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  }
-
-  .materia {
-    font-size: 0.9rem;
-    min-height: 80px;
-  }
-
-  h1 {
-    font-size: 2.2rem;
-  }
+#lista-finales-previos li {
+  padding: 4px 0;
+  border-bottom: 1px solid #e74c3c;
 }
