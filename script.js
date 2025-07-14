@@ -1,3 +1,18 @@
+const STORAGE_KEY = "estadoMateriasMalla";
+const estadoMaterias = {}; 
+// estadoMaterias: { id: { aprobada: bool, desbloqueadaDesde: "YYYY-MM-DD" } }
+
+function cargarEstadoGuardado() {
+  const guardado = localStorage.getItem(STORAGE_KEY);
+  if (guardado) {
+    Object.assign(estadoMaterias, JSON.parse(guardado));
+  }
+}
+
+function guardarEstado() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoMaterias));
+}
+
 const materiasPorSeccion = {
   "Primer año - 1° Cuatrimestre": [
     { id: "fund-info", nombre: "Fund. de Informática", requisitos: ["prog1"] },
@@ -73,9 +88,80 @@ const materiasPorSeccion = {
   ]
 };
 
-const estadoMaterias = {};
+function puedeDesbloquearse(materia) {
+  return materia.requisitos.every(req => estadoMaterias[req]?.aprobada);
+}
+
+function buscarNombreMateria(id) {
+  for (const materias of Object.values(materiasPorSeccion)) {
+    const materia = materias.find(m => m.id === id);
+    if (materia) return materia.nombre;
+  }
+  return id;
+}
+
+function calcularVencimiento(fechaISO) {
+  if (!fechaISO) return "Fecha desconocida";
+  const fecha = new Date(fechaISO);
+  fecha.setFullYear(fecha.getFullYear() + 1);
+  return fecha.toLocaleDateString();
+}
+
+function actualizarResumen() {
+  let totalAprobadas = 0;
+  const finalesPrevios = [];
+
+  for (const materias of Object.values(materiasPorSeccion)) {
+    materias.forEach((materia) => {
+      const estado = estadoMaterias[materia.id];
+      if (estado?.aprobada) {
+        totalAprobadas++;
+      } else if (puedeDesbloquearse(materia)) {
+        const fechaDesbloqueo = estado?.desbloqueadaDesde;
+        const vencimiento = calcularVencimiento(fechaDesbloqueo);
+        finalesPrevios.push(`${materia.nombre} — vence: ${vencimiento}`);
+      }
+    });
+  }
+
+  document.getElementById("contador-aprobadas").textContent = totalAprobadas;
+
+  const lista = document.getElementById("lista-finales-previos");
+  lista.innerHTML = "";
+  finalesPrevios.forEach((texto) => {
+    const li = document.createElement("li");
+    li.textContent = texto;
+    lista.appendChild(li);
+  });
+}
+
+function actualizarBloqueos() {
+  for (const materias of Object.values(materiasPorSeccion)) {
+    materias.forEach((materia) => {
+      const div = document.getElementById(materia.id);
+      div.classList.remove('bloqueada', 'final-previo', 'aprobada');
+
+      if (estadoMaterias[materia.id]?.aprobada) {
+        div.classList.add('aprobada');
+      } else if (puedeDesbloquearse(materia)) {
+        div.classList.add('final-previo');
+        if (!estadoMaterias[materia.id]) {
+          estadoMaterias[materia.id] = {
+            aprobada: false,
+            desbloqueadaDesde: new Date().toISOString().split("T")[0]
+          };
+        }
+      } else {
+        div.classList.add('bloqueada');
+      }
+    });
+  }
+  guardarEstado();
+  actualizarResumen();
+}
 
 function crearMalla() {
+  cargarEstadoGuardado();
   const contenedor = document.getElementById('contenedor-general');
   contenedor.innerHTML = '';
 
@@ -98,7 +184,7 @@ function crearMalla() {
         div.classList.add('bloqueada');
       }
 
-      if (estadoMaterias[materia.id]) {
+      if (estadoMaterias[materia.id]?.aprobada) {
         div.classList.add('aprobada');
       }
 
@@ -106,8 +192,14 @@ function crearMalla() {
         if (div.classList.contains('bloqueada')) return;
 
         div.classList.toggle('aprobada');
-        estadoMaterias[materia.id] = div.classList.contains('aprobada');
+        const estaAprobada = div.classList.contains('aprobada');
+        estadoMaterias[materia.id] = {
+          aprobada: estaAprobada,
+          desbloqueadaDesde: estadoMaterias[materia.id]?.desbloqueadaDesde || null
+        };
+        guardarEstado();
         actualizarBloqueos();
+        actualizarResumen();
       });
 
       grid.appendChild(div);
@@ -116,33 +208,9 @@ function crearMalla() {
     contenedor.appendChild(titulo);
     contenedor.appendChild(grid);
   }
-}
 
-function puedeDesbloquearse(materia) {
-  return materia.requisitos.every(req => estadoMaterias[req]);
-}
-
-function buscarNombreMateria(id) {
-  for (const materias of Object.values(materiasPorSeccion)) {
-    const materia = materias.find(m => m.id === id);
-    if (materia) return materia.nombre;
-  }
-  return id;
-}
-
-function actualizarBloqueos() {
-  for (const materias of Object.values(materiasPorSeccion)) {
-    materias.forEach((materia) => {
-      const div = document.getElementById(materia.id);
-      if (!estadoMaterias[materia.id]) {
-        if (puedeDesbloquearse(materia)) {
-          div.classList.remove('bloqueada');
-        } else {
-          div.classList.add('bloqueada');
-        }
-      }
-    });
-  }
+  actualizarBloqueos();
+  actualizarResumen();
 }
 
 crearMalla();
