@@ -24,8 +24,8 @@ h1 {
 
 /* Contenedor resumen */
 #resumen {
-  max-width: 750px;
-  margin: 0 auto 30px auto;
+  max-width: 900px;
+  margin: 0 auto 40px;
   background: #d3e0ff;
   border-radius: 12px;
   padding: 25px 30px;
