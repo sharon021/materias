@@ -17,9 +17,9 @@ h1 {
   text-align: center;
   font-weight: 800;
   font-size: 2.8rem;
-  color: #0b3d91;
+  color: #0b3d91;  /* azul sólido, sin sombras ni neón */
   margin-bottom: 40px;
-  text-shadow: 0 2px 6px #a4b9e6cc;
+  text-shadow: none;
 }
 
 /* Contenedor resumen */
@@ -88,12 +88,12 @@ h1 {
 
 /* Estilo materias */
 .materia {
-  background: #d3e0ff;
+  background: #2a6fdb; /* azul vivo para fondo */
   border-radius: 15px;
   padding: 20px 15px;
   font-weight: 700;
   font-size: 1rem;
-  color: #0b3d91;
+  color: white; /* texto blanco */
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(11, 61, 145, 0.15);
   display: flex;
@@ -114,14 +114,16 @@ h1 {
 }
 
 .materia:hover:not(.bloqueada) {
-  background-color: #4c89ff;
-  box-shadow: 0 6px 20px rgba(76, 137, 255, 0.6);
+  background-color: #1e4ca0; /* azul más oscuro al pasar */
+  box-shadow: 0 6px 20px rgba(30, 76, 160, 0.6);
   transform: translateY(-4px);
-  border-color: #2a5fff;
+  border-color: #163a75;
   color: white;
 }
 
 /* Estados */
+
+/* Bloqueada - un azul más claro y texto más opaco */
 .materia.bloqueada {
   background: #aac5f8;
   color: #5079ce;
@@ -130,32 +132,35 @@ h1 {
   border-color: #8db1f2;
 }
 
+/* Aprobada - mismo azul con sombra */
 .materia.aprobada {
-  background: #2a6fdb;
-  color: #ffffff;
-  box-shadow: 0 0 20px #2a6fdbaa;
-  border-color: #164e9f;
+  background: #1e4ca0;
+  color: white;
+  box-shadow: 0 0 20px #163a75aa;
+  border-color: #163a75;
 }
 
+/* Final previo - azul medio */
 .materia.final-previo {
-  background: #7da9e8;
-  color: #0b3d91;
-  box-shadow: 0 0 20px #7da9e8cc;
-  border-color: #5a82d9;
+  background: #5a8bd9;
+  color: white;
+  box-shadow: 0 0 20px #3a62b4cc;
+  border-color: #3a62b4;
 }
 
+/* Cursando - azul claro */
 .materia.cursando {
-  background-color: #5a8bd9; /* un azul intermedio */
-  color: #e0e7ff; /* blanco muy claro */
+  background-color: #74a4ff;
+  color: white;
   box-shadow: 0 0 15px #4a7bd9aa;
   font-style: italic;
-  border-color: #3a6cc9;
+  border-color: #4a7bd9;
 }
 
 /* Texto de fecha de vencimiento */
 .materia small.vence {
   font-size: 0.75rem;
-  color: #07326d;
+  color: #dbe6ff;
   margin-top: 8px;
   font-weight: 600;
   user-select: none;
