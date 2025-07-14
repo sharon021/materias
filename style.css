@@ -11,12 +11,19 @@ h1 {
   margin-bottom: 0.5rem;
 }
 
+h2 {
+  margin-top: 2rem;
+  color: #880e0e;
+  border-bottom: 2px solid #e57373;
+  padding-bottom: 0.2rem;
+}
+
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 15px;
   max-width: 1200px;
-  margin: 2rem auto;
+  margin: 1rem auto 2rem;
 }
 
 .materia {
