@@ -1,220 +1,212 @@
-const STORAGE_KEY = "estadoMateriasMalla";
-const estadoMaterias = {};
+(() => {
+  const materias = [
+    { id: "3.4.069", nombre: "Fundamentos de Informática", correlativas: ["3.4.071"] },
+    { id: "3.4.071", nombre: "Programación I", correlativas: ["3.4.074"] },
+    { id: "3.4.074", nombre: "Programación II", correlativas: ["3.4.077", "3.4.211"] },
+    { id: "3.4.077", nombre: "Programación III", correlativas: ["3.4.215"] },
+    { id: "3.4.215", nombre: "Teoría de la Computación", correlativas: [] },
+    { id: "3.4.164", nombre: "Sistemas de Información I", correlativas: ["3.4.207"] },
+    { id: "3.4.207", nombre: "Sistemas de Información II", correlativas: [] },
+    { id: "3.4.072", nombre: "Arquitectura de Computadores", correlativas: ["3.4.207"] },
+    { id: "3.1.050", nombre: "Elementos de Álgebra y Geometría", correlativas: ["3.1.051"] },
+    { id: "3.1.051", nombre: "Álgebra", correlativas: ["3.1.052"] },
+    { id: "3.1.052", nombre: "Física I", correlativas: ["3.1.055"] },
+    { id: "3.1.055", nombre: "Física II", correlativas: [] },
+    { id: "3.4.209", nombre: "Ingeniería de Datos I", correlativas: ["3.4.213", "3.4.211"] },
+    { id: "3.4.213", nombre: "Ingeniería de Datos II", correlativas: [] },
+    { id: "3.4.211", nombre: "Seminario de Integración Profesional", correlativas: [] },
+    { id: "2.4.216", nombre: "Examen de Inglés", correlativas: [] },
+    { id: "3.4.210", nombre: "Proceso de Desarrollo de Software", correlativas: ["3.4.216", "3.4.218"] },
+    { id: "3.4.216", nombre: "Desarrollo de Aplicaciones I", correlativas: [] },
+    { id: "3.4.218", nombre: "Desarrollo de Aplicaciones II", correlativas: [] },
+    { id: "3.1.049", nombre: "Probabilidad y Estadística", correlativas: ["3.1.056", "3.4.217"] },
+    { id: "3.1.056", nombre: "Estadística Avanzada", correlativas: ["3.4.096"] },
+    { id: "3.4.217", nombre: "Ciencia de Datos", correlativas: [] },
+    { id: "3.4.082", nombre: "Aplicaciones Interactivas", correlativas: ["3.4.218"] },
+    { id: "3.4.214", nombre: "Ingeniería de Software", correlativas: ["3.4.098"] },
+    { id: "3.4.098", nombre: "Calidad de Software", correlativas: [] },
+    // Quinto año (no desbloquean nada)
+    { id: "3.4.094", nombre: "Arquitectura de Aplicaciones", correlativas: [] },
+    { id: "3.4.220", nombre: "Tendencias Tecnológicas", correlativas: [] },
+    { id: "3.4.100", nombre: "Proyecto Final de Ingeniería en Informática", correlativas: [] },
+    { id: "3.4.221", nombre: "Negocios Tecnológicos", correlativas: [] },
+    { id: "3.4.135", nombre: "Tecnología e Innovación", correlativas: [] },
+    { id: "2.3.056", nombre: "Derecho Informático", correlativas: [] },
+    { id: "optativa1", nombre: "Optativa I", correlativas: [] },
+    { id: "optativa2", nombre: "Optativa II", correlativas: [] },
+    { id: "optativa3", nombre: "Optativa III", correlativas: [] },
+    { id: "pps06", nombre: "Práctica Profesional Supervisada", correlativas: [] },
+  ];
 
-function cargarEstadoGuardado() {
-  const guardado = localStorage.getItem(STORAGE_KEY);
-  if (guardado) {
-    Object.assign(estadoMaterias, JSON.parse(guardado));
-  }
-}
-
-function guardarEstado() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoMaterias));
-}
-
-/**
- * Ahora los "requisitos" son materias previas que hay que aprobar para desbloquear la materia.
- * Si no tiene requisitos, se desbloquea desde el principio.
- */
-const materiasPorSeccion = {
-  "Primer año - 1° Cuatrimestre": [
-    { id: "fund-info", nombre: "Fund. de Informática", requisitos: [] },
-    { id: "sis1", nombre: "Sist. Información I", requisitos: ["sis2"] },
-    { id: "pensamiento", nombre: "Pensamiento Crítico", requisitos: [] },
-    { id: "teoria", nombre: "Teoría de Sistemas", requisitos: [] },
-    { id: "elem-algebra", nombre: "Elementos Álgebra y Geometría", requisitos: ["algebra"] }
-  ],
-  "Primer año - 2° Cuatrimestre": [
-    { id: "prog1", nombre: "Programación I", requisitos: [] },
-    { id: "sist-rep", nombre: "Sist. Representación", requisitos: [] },
-    { id: "quimica", nombre: "Fund. Química", requisitos: [] },
-    { id: "arqui", nombre: "Arquitectura de Computadores", requisitos: ["so"] },
-    { id: "discreta", nombre: "Matemática Discreta", requisitos: ["ing-datos1", "teoria-comp"] },
-    { id: "algebra", nombre: "Álgebra", requisitos: ["fisica1"] }
-  ],
-  "Segundo año - 1° Cuatrimestre": [
-    { id: "prog2", nombre: "Programación II", requisitos: ["prog1"] },
-    { id: "sis2", nombre: "Sist. Información II", requisitos: ["sis1"] },
-    { id: "so", nombre: "Sistemas Operativos", requisitos: [] },
-    { id: "fisica1", nombre: "Física I", requisitos: [] },
-    { id: "calculo1", nombre: "Cálculo I", requisitos: [] }
-  ],
-  "Segundo año - 2° Cuatrimestre": [
-    { id: "prog3", nombre: "Programación III", requisitos: ["prog2"] },
-    { id: "poo", nombre: "Paradigma OO", requisitos: ["apps-int", "proceso-dev"] },
-    { id: "telecom", nombre: "Fund. Telecomunicaciones", requisitos: ["redes"] },
-    { id: "ing-datos1", nombre: "Ing. de Datos I", requisitos: ["sis2"] },
-    { id: "calculo2", nombre: "Cálculo II", requisitos: ["calculo1"] }
-  ],
-  "Tercer año - 1° Cuatrimestre": [
-    { id: "proceso-dev", nombre: "Proceso Desarrollo Soft", requisitos: ["prog3"] },
-    { id: "seminario", nombre: "Seminario Integración Profesional", requisitos: [] },
-    { id: "redes", nombre: "Teleinformática y Redes", requisitos: [] },
-    { id: "ing-datos2", nombre: "Ing. de Datos II", requisitos: ["ing-datos1"] },
-    { id: "probabilidad", nombre: "Prob. y Estadística", requisitos: [] },
-    { id: "ingles", nombre: "Examen de Inglés", requisitos: [] }
-  ],
-  "Tercer año - 2° Cuatrimestre": [
-    { id: "apps-int", nombre: "Aplicaciones Interactivas", requisitos: ["proceso-dev"] },
-    { id: "ing-soft", nombre: "Ing. de Software", requisitos: ["calidad-soft"] },
-    { id: "fisica2", nombre: "Física II", requisitos: ["fisica1"] },
-    { id: "teoria-comp", nombre: "Teoría de la Computación", requisitos: ["prog3"] },
-    { id: "estadistica-adv", nombre: "Estadística Avanzada", requisitos: ["probabilidad"] }
-  ],
-  "Cuarto año - 1° Cuatrimestre": [
-    { id: "apps1", nombre: "Desarrollo de Apps I", requisitos: ["apps-int"] },
-    { id: "dir-proy", nombre: "Dirección de Proyectos", requisitos: [] },
-    { id: "ciencia-datos", nombre: "Ciencia de Datos", requisitos: ["ing-datos2"] },
-    { id: "seguridad", nombre: "Seguridad e Integridad", requisitos: ["redes"] },
-    { id: "modelado", nombre: "Modelado y Simulación", requisitos: ["calculo2"] }
-  ],
-  "Cuarto año - 2° Cuatrimestre": [
-    { id: "opt1", nombre: "Optativa I", requisitos: [] },
-    { id: "apps2", nombre: "Desarrollo de Apps II", requisitos: ["apps1"] },
-    { id: "eval-proy", nombre: "Evaluación de Proyectos", requisitos: [] },
-    { id: "ia", nombre: "Inteligencia Artificial", requisitos: ["estadistica-adv"] },
-    { id: "medioamb", nombre: "Tecnología y Medioambiente", requisitos: [] },
-    { id: "pps", nombre: "Práctica Profesional Supervisada", requisitos: [] }
-  ],
-  "Quinto año - 1° Cuatrimestre": [
-    { id: "opt2", nombre: "Optativa II", requisitos: [] },
-    { id: "arquitectura-app", nombre: "Arquitectura de Aplicaciones", requisitos: ["dir-proy"] },
-    { id: "tendencias", nombre: "Tendencias Tecnológicas", requisitos: [] },
-    { id: "proyecto", nombre: "Proyecto Final", requisitos: ["eval-proy"] },
-    { id: "calidad-soft", nombre: "Calidad de Software", requisitos: [] }
-  ],
-  "Quinto año - 2° Cuatrimestre": [
-    { id: "opt3", nombre: "Optativa III", requisitos: [] },
-    { id: "negocios", nombre: "Negocios Tecnológicos", requisitos: [] },
-    { id: "innovacion", nombre: "Tecnología e Innovación", requisitos: [] },
-    { id: "derecho", nombre: "Derecho Informático", requisitos: [] }
-  ]
-};
-
-// Verifica si todos los requisitos de la materia están aprobados
-function puedeDesbloquearse(materia) {
-  return materia.requisitos.every(req => estadoMaterias[req]?.aprobada);
-}
-
-function buscarNombreMateria(id) {
-  for (const materias of Object.values(materiasPorSeccion)) {
-    const materia = materias.find(m => m.id === id);
-    if (materia) return materia.nombre;
-  }
-  return id;
-}
-
-function calcularVencimiento(fechaISO) {
-  if (!fechaISO) return "Fecha desconocida";
-  const fecha = new Date(fechaISO);
-  fecha.setFullYear(fecha.getFullYear() + 1);
-  return fecha.toLocaleDateString();
-}
-
-function actualizarResumen() {
-  let totalAprobadas = 0;
-  const finalesPrevios = [];
-
-  for (const materias of Object.values(materiasPorSeccion)) {
-    materias.forEach((materia) => {
-      const estado = estadoMaterias[materia.id];
-      if (estado?.aprobada) {
-        totalAprobadas++;
-      } else if (puedeDesbloquearse(materia)) {
-        const fechaDesbloqueo = estado?.desbloqueadaDesde;
-        const vencimiento = calcularVencimiento(fechaDesbloqueo);
-        finalesPrevios.push(`${materia.nombre} — vence: ${vencimiento}`);
-      }
+  const requisitosMap = {};
+  materias.forEach(m => requisitosMap[m.id] = []);
+  materias.forEach(m => {
+    m.correlativas.forEach(corr => {
+      if (!requisitosMap[corr]) requisitosMap[corr] = [];
+      requisitosMap[corr].push(m.id);
     });
-  }
-
-  document.getElementById("contador-aprobadas").textContent = totalAprobadas;
-
-  const lista = document.getElementById("lista-finales-previos");
-  lista.innerHTML = "";
-  finalesPrevios.forEach((texto) => {
-    const li = document.createElement("li");
-    li.textContent = texto;
-    lista.appendChild(li);
   });
-}
 
-function actualizarBloqueos() {
-  for (const materias of Object.values(materiasPorSeccion)) {
-    materias.forEach((materia) => {
-      const div = document.getElementById(materia.id);
-      div.classList.remove('bloqueada', 'final-previo', 'aprobada');
+  const materiasPorSeccion = {
+    "Primer año - 1° Cuatrimestre": ["3.4.069", "3.4.164", "3.1.050"],
+    "Primer año - 2° Cuatrimestre": ["3.4.071", "3.3.121", "3.2.178", "3.4.072", "3.1.024", "3.1.051"],
+    "Segundo año - 1° Cuatrimestre": ["3.4.074", "3.4.207", "3.4.075", "3.1.052", "3.1.053"],
+    "Segundo año - 2° Cuatrimestre": ["3.4.077", "3.4.208", "3.4.078", "3.4.209", "3.1.054"],
+    "Tercer año - 1° Cuatrimestre": ["3.4.210", "3.4.211", "3.4.212", "3.4.213", "3.1.049", "2.4.216"],
+    "Tercer año - 2° Cuatrimestre": ["3.4.082", "3.4.214", "3.1.055", "3.4.215", "3.1.056"],
+    "Cuarto año - 1° Cuatrimestre": ["3.4.216", "3.4.089", "3.4.217", "3.4.092", "3.1.025"],
+    "Cuarto año - 2° Cuatrimestre": ["optativa1", "3.4.218", "3.4.086", "3.4.096", "3.4.219", "pps06"],
+    "Quinto año - 1° Cuatrimestre": ["optativa2", "3.4.094", "3.4.220", "3.4.100", "3.4.098"],
+    "Quinto año - 2° Cuatrimestre": ["optativa3", "3.4.221", "3.4.135", "2.3.056"]
+  };
 
-      if (estadoMaterias[materia.id]?.aprobada) {
-        div.classList.add('aprobada');
-      } else if (puedeDesbloquearse(materia)) {
-        div.classList.add('final-previo');
-        if (!estadoMaterias[materia.id]) {
-          estadoMaterias[materia.id] = {
-            aprobada: false,
-            desbloqueadaDesde: new Date().toISOString().split("T")[0]
-          };
+  const estadoMaterias = {};
+  const STORAGE_KEY = "mallaEstado";
+
+  const cargarEstado = () => {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (data) Object.assign(estadoMaterias, JSON.parse(data));
+  };
+
+  const guardarEstado = () => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(estadoMaterias));
+  };
+
+  const puedeDesbloquearse = (id) =>
+    (requisitosMap[id] || []).every(rid => estadoMaterias[rid]?.estado === "aprobada");
+
+  const diasParaVencer = (fechaISO) => {
+    if (!fechaISO) return null;
+    const hoy = new Date();
+    const venc = new Date(fechaISO);
+    return Math.ceil((venc - hoy) / (1000 * 60 * 60 * 24));
+  };
+
+  const formatearFecha = (fechaISO) => {
+    if (!fechaISO) return "Fecha no asignada";
+    const f = new Date(fechaISO);
+    return f.toLocaleDateString("es-AR");
+  };
+  const renderizarMalla = () => {
+    const contenedor = document.getElementById("contenedor-general");
+    contenedor.innerHTML = "";
+
+    for (const seccion in materiasPorSeccion) {
+      const wrapper = document.createElement("div");
+      const titulo = document.createElement("h2");
+      titulo.textContent = seccion;
+      wrapper.appendChild(titulo);
+
+      const grid = document.createElement("div");
+      grid.className = "grid";
+
+      materiasPorSeccion[seccion].forEach(id => {
+        const mat = materias.find(m => m.id === id);
+        const estado = estadoMaterias[id] || {};
+        const desbloqueada = puedeDesbloquearse(id);
+        const div = document.createElement("div");
+        div.className = "materia";
+
+        if (!desbloqueada && !estado.estado) {
+          div.classList.add("bloqueada");
+        } else if (estado.estado === "aprobada") {
+          div.classList.add("aprobada");
+        } else if (estado.estado === "final-previo") {
+          div.classList.add("final-previo");
         }
-      } else {
-        div.classList.add('bloqueada');
-      }
-    });
-  }
-  guardarEstado();
-  actualizarResumen();
-}
 
-function crearMalla() {
-  cargarEstadoGuardado();
-  const contenedor = document.getElementById('contenedor-general');
-  contenedor.innerHTML = '';
+        div.textContent = mat.nombre;
+        if (estado.estado === "final-previo" && estado.vencimiento) {
+          const span = document.createElement("small");
+          span.className = "vence";
+          span.textContent = "Vence: " + formatearFecha(estado.vencimiento);
+          div.appendChild(span);
+        }
 
-  for (const [seccion, materias] of Object.entries(materiasPorSeccion)) {
-    const titulo = document.createElement('h2');
-    titulo.textContent = seccion;
-    const grid = document.createElement('div');
-    grid.className = 'grid';
+        if (desbloqueada && !estado.estado) {
+          div.addEventListener("click", () => seleccionarEstado(id));
+        } else if (estado.estado) {
+          div.addEventListener("click", () => seleccionarEstado(id));
+        }
 
-    materias.forEach((materia) => {
-      const div = document.createElement('div');
-      div.className = 'materia';
-      div.id = materia.id;
-      div.innerHTML = `
-        ${materia.nombre}
-        <small>${materia.requisitos.length ? 'Requiere: ' + materia.requisitos.map(r => buscarNombreMateria(r)).join(', ') : 'Sin correlativas'}</small>
-      `;
+        div.title = estado.estado
+          ? estado.estado === "aprobada"
+            ? "Materia aprobada"
+            : "Final pendiente"
+          : desbloqueada
+          ? "Haz clic para actualizar estado"
+          : "Correlativas pendientes";
 
-      if (!puedeDesbloquearse(materia)) {
-        div.classList.add('bloqueada');
-      }
-
-      if (estadoMaterias[materia.id]?.aprobada) {
-        div.classList.add('aprobada');
-      }
-
-      div.addEventListener('click', () => {
-        if (div.classList.contains('bloqueada')) return;
-
-        div.classList.toggle('aprobada');
-        const estaAprobada = div.classList.contains('aprobada');
-        estadoMaterias[materia.id] = {
-          aprobada: estaAprobada,
-          desbloqueadaDesde: estadoMaterias[materia.id]?.desbloqueadaDesde || null
-        };
-        guardarEstado();
-        actualizarBloqueos();
-        actualizarResumen();
+        grid.appendChild(div);
       });
 
-      grid.appendChild(div);
-    });
+      wrapper.appendChild(grid);
+      contenedor.appendChild(wrapper);
+    }
+  };
 
-    contenedor.appendChild(titulo);
-    contenedor.appendChild(grid);
-  }
+  const seleccionarEstado = (id) => {
+    const mat = materias.find(m => m.id === id);
+    const opcion = prompt(`¿Qué querés registrar para "${mat.nombre}"?\n1 - Aprobada\n2 - Final pendiente`);
 
-  actualizarBloqueos();
-  actualizarResumen();
-}
+    if (opcion === "1") {
+      estadoMaterias[id] = { estado: "aprobada" };
+    } else if (opcion === "2") {
+      const fecha = prompt("Ingresá la fecha de vencimiento del final (formato AAAA-MM-DD):");
+      if (fecha && !isNaN(Date.parse(fecha))) {
+        estadoMaterias[id] = { estado: "final-previo", vencimiento: fecha };
+      } else {
+        alert("Fecha inválida.");
+        return;
+      }
+    } else {
+      return;
+    }
 
-crearMalla();
+    guardarEstado();
+    renderizarMalla();
+    renderizarResumen();
+    chequearAlertas();
+  };
+  const renderizarResumen = () => {
+    const lista = document.getElementById("lista-finales-previos");
+    const contador = document.getElementById("contador-previos");
+    lista.innerHTML = "";
+    let total = 0;
+
+    for (const id in estadoMaterias) {
+      const estado = estadoMaterias[id];
+      if (estado.estado === "final-previo") {
+        total++;
+        const mat = materias.find(m => m.id === id);
+        const li = document.createElement("li");
+        li.textContent = `${mat.nombre} (vence: ${formatearFecha(estado.vencimiento)})`;
+        lista.appendChild(li);
+      }
+    }
+
+    contador.textContent = total;
+  };
+
+  const chequearAlertas = () => {
+    for (const id in estadoMaterias) {
+      const estado = estadoMaterias[id];
+      if (estado.estado === "final-previo" && estado.vencimiento) {
+        const hoy = new Date();
+        const venc = new Date(estado.vencimiento);
+        const diffMeses = (venc.getFullYear() - hoy.getFullYear()) * 12 + (venc.getMonth() - hoy.getMonth());
+        if (diffMeses <= 4 && diffMeses >= 0) {
+          const mat = materias.find(m => m.id === id);
+          alert(`Atención: El final previo de "${mat.nombre}" vence en menos de 4 meses (${formatearFecha(estado.vencimiento)})`);
+        }
+      }
+    }
+  };
+
+  // Inicialización
+  cargarEstado();
+  renderizarMalla();
+  renderizarResumen();
+  chequearAlertas();
+
+})();
