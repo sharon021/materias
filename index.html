@@ -2,24 +2,26 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Test reset localStorage</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Plan de estudio - Ingeniería Informática</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <h1>Plan de estudio - Ingeniería en Informática</h1>
   <button id="resetEstado">Resetear estado materias</button>
 
-  <script>
-    const resetBtn = document.getElementById("resetEstado");
+  <div id="resumen">
+    <span id="totalMaterias"></span>
+    <span id="materiasAprobadas"></span>
+    <span id="materiasFinalPrevio"></span>
+    <span id="materiasCursando"></span>
+    <span id="promedio"></span>
+  </div>
 
-    resetBtn.addEventListener("click", () => {
-      if (confirm("¿Querés resetear todas las materias? Se perderán los datos guardados.")) {
-        localStorage.removeItem("estadoMaterias");
-        alert("LocalStorage limpiado, recargando página...");
-        location.reload();
-      }
-    });
+  <ul id="lista-finales-previos"></ul>
 
-    // Mostrar estado para test
-    console.log("Estado previo en localStorage:", localStorage.getItem("estadoMaterias"));
-  </script>
+  <div id="contenedor-general"></div>
+
+  <script src="script.js"></script>
 </body>
 </html>
