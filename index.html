@@ -3,18 +3,25 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Malla Interactiva</title>
+  <title>Malla Interactiva de Ingeniería en Informática</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <h1>Malla Interactiva de Ingeniería en Informática</h1>
 
   <div id="resumen">
-    <h3>Materias con final previo pendientes (<span id="contador-previos">0</span>)</h3>
-    <ul id="lista-finales-previos"></ul>
+    <p>Total materias: <span id="total-materias">0</span></p>
+    <p>Materias aprobadas: <span id="materias-aprobadas">0</span></p>
+    <p>Materias con final previo: <span id="materias-final-previo">0</span></p>
+    <p>Promedio general: <span id="promedio-general">0</span></p>
   </div>
 
   <div id="contenedor-general"></div>
+
+  <div id="finales-previos-container">
+    <h3>Finales previos y sus fechas de vencimiento</h3>
+    <ul id="lista-finales-previos"></ul>
+  </div>
 
   <script src="script.js"></script>
 </body>
