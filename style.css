@@ -1,118 +1,130 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f4f8;
-  margin: 20px;
-  color: #333;
+/* Reset básico */
+* {
+  box-sizing: border-box;
 }
 
-h1 {
-  text-align: center;
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fafbfc;
   color: #2c3e50;
-  margin-bottom: 10px;
+  margin: 30px;
+  line-height: 1.5;
+}
+
+h1, h2 {
+  color: #1e40af; /* azul intenso */
+  font-weight: 700;
+  margin-bottom: 16px;
+  text-align: center;
+  text-shadow: 0 0 5px #3b82f6aa;
 }
 
 #resumen {
-  text-align: center;
-  margin-bottom: 15px;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 24px;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: #34495e;
 }
 
-#resetEstado {
-  display: block;
-  margin: 10px auto 20px auto;
-  padding: 8px 18px;
-  font-size: 1rem;
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-#resetEstado:hover {
-  background-color: #c0392b;
-}
-
-#contenedor-general > div {
+#lista-finales-previos {
+  list-style: none;
+  padding-left: 0;
   margin-bottom: 30px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #b58900; /* mostaza suave */
 }
 
-h2 {
-  color: #34495e;
-  border-bottom: 2px solid #2980b9;
-  padding-bottom: 6px;
-  margin-bottom: 15px;
+#lista-finales-previos li {
+  margin-bottom: 8px;
 }
 
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
+  gap: 18px;
 }
 
 .materia {
-  background: #3498db;
-  color: white;
-  padding: 14px 10px;
-  border-radius: 10px;
+  background-color: #eff6ff; /* azul claro muy suave */
+  border-radius: 12px;
+  padding: 18px 12px;
+  text-align: center;
   cursor: pointer;
-  user-select: none;
-  box-shadow: 0 4px 7px rgba(52, 152, 219, 0.5);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  color: #1e3a8a; /* azul intenso */
+  box-shadow: 0 4px 8px rgb(99 102 241 / 0.2);
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
+  user-select: none;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 80px;
 }
 
 .materia:hover:not(.bloqueada) {
-  background-color: #2980b9;
-  box-shadow: 0 6px 10px rgba(41, 128, 185, 0.7);
+  background-color: #bfdbfe;
+  box-shadow: 0 8px 14px rgb(99 102 241 / 0.35);
+  transform: translateY(-4px);
 }
 
-.bloqueada {
-  background: #bdc3c7;
-  color: #7f8c8d;
+.materia.aprobada {
+  background-color: #2563eb; /* azul vivo */
+  color: #e0e7ff; /* blanco muy claro */
+  box-shadow: 0 0 15px #3b82f6aa;
+}
+
+.materia.final-previo {
+  background-color: #facc15; /* mostaza */
+  color: #92400e; /* mostaza oscuro */
+  box-shadow: 0 0 15px #b45309aa;
+  font-weight: 800;
+}
+
+.materia.cursando {
+  background-color: #2dd4bf; /* turquesa/verde azulado */
+  color: #e0f2fe; /* muy claro */
+  box-shadow: 0 0 15px #0891b2aa;
+  font-style: italic;
+}
+
+.materia.bloqueada {
+  background-color: #e0e7ff;
+  color: #94a3b8;
   cursor: not-allowed;
   box-shadow: none;
-}
-
-.aprobada {
-  background: #27ae60;
-  box-shadow: 0 4px 7px rgba(39, 174, 96, 0.6);
-}
-
-.final-previo {
-  background: #f39c12;
-  box-shadow: 0 4px 7px rgba(243, 156, 18, 0.6);
-}
-
-.cursando {
-  background: #8e44ad;
-  box-shadow: 0 4px 7px rgba(142, 68, 173, 0.6);
+  opacity: 0.55;
 }
 
 .materia small.vence {
-  position: absolute;
-  bottom: 5px;
-  right: 8px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #fff;
-  opacity: 0.85;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #92400e; /* mostaza oscuro */
+  text-shadow: 0 0 1px #fbbf24cc;
 }
 
-#lista-finales-previos {
-  list-style-type: none;
-  padding-left: 0;
-  max-width: 480px;
-  margin: 0 auto 40px auto;
-  font-weight: 600;
-  color: #c0392b;
+button#resetEstado {
+  background-color: #2563eb;
+  color: #e0e7ff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+  margin-bottom: 28px;
+  display: block;
+  margin-left: auto;
+  box-shadow: 0 0 12px #60a5fa;
 }
 
-#lista-finales-previos li {
-  padding: 4px 0;
-  border-bottom: 1px solid #e74c3c;
+button#resetEstado:hover {
+  background-color: #3b82f6;
+  box-shadow: 0 0 20px #93c5fd;
 }
