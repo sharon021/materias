@@ -1,131 +1,203 @@
-/* Reset básico */
+/* Reset y base */
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fafbfc;
-  color: #2c3e50;
-  margin: 30px;
-  line-height: 1.5;
+  background: #e6f0fa;
+  color: #0b3d91;
+  margin: 0;
+  padding: 30px;
+  min-height: 100vh;
 }
 
-h1, h2 {
-  color: #1e40af; /* azul intenso */
-  font-weight: 700;
-  margin-bottom: 16px;
+/* Título principal */
+h1 {
   text-align: center;
-  text-shadow: 0 0 5px #3b82f6aa;
+  font-weight: 800;
+  font-size: 2.8rem;
+  color: #0b3d91;
+  margin-bottom: 40px;
+  text-shadow: 0 2px 6px #a4b9e6cc;
 }
 
+/* Contenedor resumen */
 #resumen {
+  max-width: 650px;
+  margin: 0 auto 30px auto;
+  background: #d3e0ff;
+  border-radius: 12px;
+  padding: 25px 30px;
+  box-shadow: 0 6px 20px rgba(11, 61, 145, 0.3);
   display: flex;
   justify-content: space-around;
-  margin-bottom: 24px;
   font-weight: 600;
   font-size: 1.1rem;
-  color: #34495e;
+  color: #164e9f;
 }
 
+#resumen span {
+  margin: 0 5px;
+  text-align: center;
+  min-width: 130px;
+}
+
+/* Lista de finales previos */
 #lista-finales-previos {
+  max-width: 650px;
+  margin: 0 auto 40px auto;
+  background: #d3e0ff;
+  padding: 18px 25px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(11, 61, 145, 0.3);
+  color: #164e9f;
+  font-weight: 600;
   list-style: none;
-  padding-left: 0;
-  margin-bottom: 30px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: #b58900; /* mostaza suave */
 }
 
 #lista-finales-previos li {
-  margin-bottom: 8px;
+  margin-bottom: 9px;
+  font-size: 1rem;
+  line-height: 1.3;
 }
 
+/* Secciones (años y cuatrimestres) */
+#contenedor-general > div {
+  margin-bottom: 45px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#contenedor-general h2 {
+  border-left: 6px solid #0b3d91;
+  padding-left: 12px;
+  margin-bottom: 20px;
+  font-size: 1.8rem;
+  color: #164e9f;
+  font-weight: 700;
+}
+
+/* Grid para materias */
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 18px;
 }
 
+/* Estilo materias */
 .materia {
-  background-color: #eff6ff; /* azul claro muy suave */
-  border-radius: 12px;
-  padding: 18px 12px;
-  text-align: center;
-  cursor: pointer;
-  color: #1e3a8a; /* azul intenso */
-  box-shadow: 0 4px 8px rgb(99 102 241 / 0.2);
-  transition: background-color 0.35s ease, box-shadow 0.35s ease, transform 0.2s ease;
+  background: #d3e0ff;
+  border-radius: 15px;
+  padding: 20px 15px;
   font-weight: 700;
-  font-size: 1.05rem;
-  user-select: none;
-  position: relative;
+  font-size: 1rem;
+  color: #0b3d91;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(11, 61, 145, 0.15);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 80px;
+  align-items: center;
+  text-align: center;
+  transition:
+    background-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.15s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+  user-select: none;
+  min-height: 90px;
+  position: relative;
+  border: 2px solid transparent;
 }
 
 .materia:hover:not(.bloqueada) {
-  background-color: #bfdbfe;
-  box-shadow: 0 8px 14px rgb(99 102 241 / 0.35);
+  background-color: #4c89ff;
+  box-shadow: 0 6px 20px rgba(76, 137, 255, 0.6);
   transform: translateY(-4px);
+  border-color: #2a5fff;
+  color: white;
+}
+
+/* Estados */
+.materia.bloqueada {
+  background: #aac5f8;
+  color: #5079ce;
+  cursor: default;
+  box-shadow: none;
+  border-color: #8db1f2;
 }
 
 .materia.aprobada {
-  background-color: #2563eb; /* azul vivo */
-  color: #e0e7ff; /* blanco muy claro */
-  box-shadow: 0 0 15px #3b82f6aa;
+  background: #2a6fdb;
+  color: #ffffff;
+  box-shadow: 0 0 20px #2a6fdbaa;
+  border-color: #164e9f;
 }
 
 .materia.final-previo {
-  background-color: #facc15; /* mostaza */
-  color: #92400e; /* mostaza oscuro */
-  box-shadow: 0 0 15px #b45309aa;
-  font-weight: 800;
+  background: #7da9e8;
+  color: #0b3d91;
+  box-shadow: 0 0 20px #7da9e8cc;
+  border-color: #5a82d9;
 }
 
 .materia.cursando {
-  background-color: #2dd4bf; /* turquesa/verde azulado */
-  color: #e0f2fe; /* muy claro */
-  box-shadow: 0 0 15px #0891b2aa;
+  background-color: #5a8bd9; /* un azul intermedio */
+  color: #e0e7ff; /* blanco muy claro */
+  box-shadow: 0 0 15px #4a7bd9aa;
   font-style: italic;
+  border-color: #3a6cc9;
 }
 
-.materia.bloqueada {
-  background-color: #e0e7ff;
-  color: #94a3b8;
-  cursor: not-allowed;
-  box-shadow: none;
-  opacity: 0.55;
-}
-
+/* Texto de fecha de vencimiento */
 .materia small.vence {
+  font-size: 0.75rem;
+  color: #07326d;
   margin-top: 8px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: #92400e; /* mostaza oscuro */
-  text-shadow: 0 0 1px #fbbf24cc;
+  font-weight: 600;
+  user-select: none;
 }
 
+/* Botón reset */
 button#resetEstado {
-  background-color: #2563eb;
+  background-color: #2a6fdb;
   color: #e0e7ff;
   border: none;
-  padding: 12px 20px;
+  padding: 12px 25px;
   border-radius: 10px;
   cursor: pointer;
   font-weight: 700;
   font-size: 1.1rem;
-  transition: background-color 0.3s ease;
-  margin-bottom: 28px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 40px;
   display: block;
   margin-left: auto;
   box-shadow: 0 0 12px #60a5fa;
 }
 
 button#resetEstado:hover {
-  background-color: #3b82f6;
+  background-color: #4c89ff;
   box-shadow: 0 0 20px #93c5fd;
 }
 
+/* Responsive para móvil */
+@media (max-width: 480px) {
+  #resumen {
+    flex-direction: column;
+    gap: 15px;
+  }
+  #resumen span {
+    min-width: unset;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+  .materia {
+    min-height: 80px;
+    font-size: 0.9rem;
+  }
+}
