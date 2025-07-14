@@ -2,29 +2,24 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Plan de estudio de Ingeniería</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Test reset localStorage</title>
 </head>
 <body>
-  <h1>Plan de estudio de Ingeniería en Informática</h1>
-
-  <div id="resumen">
-    <span id="totalMaterias"></span> |
-    <span id="materiasAprobadas"></span> |
-    <span id="materiasFinalPrevio"></span> |
-    <span id="materiasCursando"></span> |
-    <span id="promedio"></span>
-  </div>
-
   <button id="resetEstado">Resetear estado materias</button>
 
-  <div id="contenedor-general"></div>
+  <script>
+    const resetBtn = document.getElementById("resetEstado");
 
-  <h3>Fechas de vencimiento de finales previos</h3>
-  <ul id="lista-finales-previos"></ul>
+    resetBtn.addEventListener("click", () => {
+      if (confirm("¿Querés resetear todas las materias? Se perderán los datos guardados.")) {
+        localStorage.removeItem("estadoMaterias");
+        alert("LocalStorage limpiado, recargando página...");
+        location.reload();
+      }
+    });
 
-  <script src="script.js" defer></script>
+    // Mostrar estado para test
+    console.log("Estado previo en localStorage:", localStorage.getItem("estadoMaterias"));
+  </script>
 </body>
 </html>
-
