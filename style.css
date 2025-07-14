@@ -1,36 +1,31 @@
-/* RESET */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-/* GENERAL */
 body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f0f6ff;
-  color: #0a3d62;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f9fafd;
+  color: #223;
   padding: 40px 20px;
   line-height: 1.6;
 }
 
-/* TÍTULO */
 h1 {
   text-align: center;
   font-size: 2.8rem;
   margin-bottom: 40px;
-  color: #0a3d62;
-  text-shadow: 0px 2px 8px #a4c8ff70;
+  color: #345;
 }
 
-/* RESUMEN */
 #resumen {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto 40px;
   padding: 20px;
-  background: #dfeeff;
+  background: #e5f1ff;
   border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(10, 61, 98, 0.15);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -39,21 +34,20 @@ h1 {
   font-size: 1.1rem;
 }
 
-/* FINAL PREVIO SECTION */
 #finales-previos-container {
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto 40px;
-  background: #eaf2ff;
+  background: #fff6f3;
   padding: 20px 30px;
   border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(10, 61, 98, 0.12);
-  color: #0a3d62;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  color: #6c3333;
 }
 
 #finales-previos-container h3 {
   margin-bottom: 15px;
   font-size: 1.5rem;
-  border-bottom: 2px solid #0a3d62;
+  border-bottom: 2px solid #c66;
   padding-bottom: 8px;
 }
 
@@ -67,7 +61,6 @@ h1 {
   font-size: 1rem;
 }
 
-/* SECCIONES DE MALLA */
 #contenedor-general > div {
   margin-bottom: 50px;
   max-width: 1000px;
@@ -78,79 +71,74 @@ h1 {
 #contenedor-general h2 {
   font-size: 1.8rem;
   margin-bottom: 16px;
-  border-left: 5px solid #0a3d62;
+  border-left: 5px solid #345;
   padding-left: 14px;
-  color: #0a3d62;
+  color: #345;
 }
 
-/* GRID DE MATERIAS */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
   gap: 16px;
 }
 
-/* ESTILO MATERIAS */
 .materia {
-  background: #e1edff;
+  background: #e0ecff;
   border-radius: 15px;
   padding: 15px 10px;
   font-weight: 700;
   font-size: 1rem;
   text-align: center;
   cursor: pointer;
-  box-shadow: 0 4px 10px rgba(10, 61, 98, 0.15);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
   transition: all 0.2s ease;
   border: 2px solid transparent;
-  position: relative;
-  user-select: none;
   min-height: 90px;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-/* HOVER ACTIVO */
 .materia:hover:not(.bloqueada) {
-  background: #5fa8f5;
+  background: #6ba8ff;
   color: white;
   transform: translateY(-4px);
-  box-shadow: 0 6px 20px rgba(95, 168, 245, 0.5);
-  border-color: #3b7ed0;
+  border-color: #4a8de0;
 }
 
-/* ESTADOS */
 .materia.bloqueada {
-  background: #c9dffa;
-  color: #6c8db4;
+  background: #ccd8e0;
+  color: #789;
   cursor: default;
   box-shadow: none;
-  border-color: #b5cfec;
+  border-color: #b0c0cc;
 }
 
 .materia.aprobada {
-  background: #2a6fdb;
+  background: #4caf50;
   color: white;
-  border-color: #0a3d62;
-  box-shadow: 0 0 15px #2a6fdb99;
+  border-color: #388e3c;
 }
 
 .materia.final-previo {
-  background: #7da9e8;
-  color: #0a3d62;
-  border-color: #5a82d9;
-  box-shadow: 0 0 15px #7da9e880;
+  background: #fdd835;
+  color: #333;
+  border-color: #fbc02d;
 }
 
-/* TEXTO DE FECHA DE VENCIMIENTO */
+.materia.cursando {
+  background: #29b6f6;
+  color: white;
+  border-color: #0288d1;
+}
+
 .materia small.vence {
   font-size: 0.75rem;
   margin-top: 8px;
-  color: #0a3d62;
+  color: #222;
   font-weight: 600;
 }
 
-/* RESPONSIVE MOBILE */
 @media (max-width: 600px) {
   #resumen {
     flex-direction: column;
