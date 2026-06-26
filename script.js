@@ -259,6 +259,18 @@ function actualizarResumen() {
   actualizarBarraProgreso(aprobadas, total, faltantes);
 }
 
+function actualizarBarraProgreso(aprobadas, total, faltantes) {
+  const barra = document.getElementById("barraProgreso");
+  const texto = document.getElementById("porcentajeProgreso");
+
+  if (!barra || !texto) return;
+
+  const porcentaje = total > 0 ? ((aprobadas / total) * 100).toFixed(1) : 0;
+
+  barra.style.width = `${porcentaje}%`;
+  texto.textContent = `${porcentaje}% aprobado — Te faltan ${faltantes} materias`;
+}
+
 /* =========================
    6. FINALES PRÓXIMOS
    ========================= */
@@ -336,11 +348,27 @@ function crearCardMateria(materia) {
   card.className = "materia";
   card.textContent = materia.nombre;
 
-  if (!desbloqueada && !estado) {
-    card.classList.add("bloqueada");
-    card.title = "Todavía no podés cursarla porque te faltan correlativas.";
-    return card;
-  }
+ if (!desbloqueada && !estado) {
+  const correlativasFaltantes = obtenerCorrelativasDe(materia.id)
+    .filter((correlativa) => !estaAprobada(correlativa.id))
+    .map((correlativa) => correlativa.nombre);
+
+  card.classList.add("bloqueada");
+
+  const tooltip = document.createElement("div");
+  tooltip.className = "tooltip-correlativas";
+
+  tooltip.innerHTML = `
+    <strong>Para cursarla necesitás aprobar:</strong>
+    <ul>
+      ${correlativasFaltantes.map((nombre) => `<li>${nombre}</li>`).join("")}
+    </ul>
+  `;
+
+  card.appendChild(tooltip);
+
+  return card;
+}
 
   if (estado?.estado) {
     card.classList.add(estado.estado);

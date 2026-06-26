@@ -456,3 +456,45 @@ button:hover,
     font-size: 0.95rem;
   }
 }
+
+.materia {
+  position: relative;
+}
+
+.tooltip-correlativas {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 12px);
+  transform: translateX(-50%);
+  width: 250px;
+  background: #172554;
+  color: white;
+  padding: 14px;
+  border-radius: 16px;
+  box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+  font-size: 0.8rem;
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  z-index: 50;
+}
+
+.tooltip-correlativas strong {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.tooltip-correlativas ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+.tooltip-correlativas li {
+  margin-bottom: 4px;
+}
+
+.materia.bloqueada:hover .tooltip-correlativas {
+  opacity: 1;
+  visibility: visible;
+}
