@@ -178,6 +178,10 @@ function validarFecha(fecha) {
 
   return !isNaN(fechaConvertida.getTime());
 }
+function formatearFecha(fecha) {
+  const [anio, mes, dia] = fecha.split("-");
+  return `${dia}/${mes}/${anio}`;
+}
 
 function calcularDiasRestantes(fecha) {
   const hoy = new Date();
@@ -289,15 +293,15 @@ function mostrarFinalesProximos() {
     const li = document.createElement("li");
 
     if (diasRestantes < 0) {
-      li.textContent = `${materia.nombre} venció el ${fecha}`;
+      li.textContent = `${materia.nombre} • Venció: ${formatearFecha(fecha)}`
       li.style.color = "#b91c1c";
       li.style.fontWeight = "700";
     } else if (diasRestantes <= 120) {
-      li.textContent = `${materia.nombre} vence el ${fecha} — faltan ${diasRestantes} días`;
+      li.textContent = `${materia.nombre} • Vence: ${formatearFecha(fecha)} • Faltan ${diasRestantes} días`;
       li.style.color = "#b91c1c";
       li.style.fontWeight = "700";
     } else {
-      li.textContent = `${materia.nombre} vence el ${fecha} — faltan ${diasRestantes} días`;
+     li.textContent = `${materia.nombre} • Vence: ${formatearFecha(fecha)} • Faltan ${diasRestantes} días`;
     }
 
     listaFinales.appendChild(li);
@@ -345,7 +349,7 @@ function crearCardMateria(materia) {
   if (estado?.estado === "final-previo" && estado.fecha) {
     const small = document.createElement("small");
     small.className = "vence";
-    small.textContent = `Vence: ${estado.fecha}`;
+    small.textContent = `📅 Vence: ${formatearFecha(estado.fecha)}`;
     card.appendChild(small);
   }
 
