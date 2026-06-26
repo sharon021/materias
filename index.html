@@ -6,21 +6,71 @@
   <title>Plan de estudio - Ingeniería Informática</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-  <h1>Plan de estudio - Ingeniería en Informática</h1>
-  <button id="resetEstado">Resetear estado materias</button>
+  <div class="app">
 
-  <div id="resumen">
-    <span id="totalMaterias"></span>
-    <span id="materiasAprobadas"></span>
-    <span id="materiasFinalPrevio"></span>
-    <span id="materiasCursando"></span>
-    <span id="promedio"></span>
+    <header class="hero">
+      <div class="icono">🎓</div>
+      <h1>Plan de estudio</h1>
+      <p>Ingeniería en Informática</p>
+
+      <div class="acciones">
+        <button id="resetEstado">↻ Resetear estado</button>
+        <button id="exportarEstado">⬇ Exportar respaldo</button>
+
+        <label for="importarEstado" class="boton-importar">⬆ Importar respaldo</label>
+        <input type="file" id="importarEstado" accept=".json" hidden>
+      </div>
+    </header>
+
+    <section id="resumen" class="cards-resumen">
+      <span id="totalMaterias"></span>
+      <span id="materiasAprobadas"></span>
+      <span id="materiasFinalPrevio"></span>
+      <span id="materiasCursando"></span>
+      <span id="promedio"></span>
+    </section>
+
+    <section class="panel progreso">
+      <div class="panel-header">
+        <h2>Progreso general</h2>
+        <strong id="porcentajeProgreso"></strong>
+      </div>
+      <p>Vas avanzando paso a paso ✨</p>
+      <div class="barra-progreso">
+        <div id="barraProgreso"></div>
+      </div>
+    </section>
+
+    <section class="panel leyenda">
+      <h2>Referencias</h2>
+      <div class="leyenda-grid">
+        <div><span class="color disponible"></span>Disponible</div>
+        <div><span class="color cursando"></span>Cursando</div>
+        <div><span class="color aprobada"></span>Aprobada</div>
+        <div><span class="color final-previo"></span>Final previo</div>
+        <div><span class="color bloqueada"></span>Bloqueada</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Finales en condición de final previo</h2>
+      <ul id="lista-finales-previos"></ul>
+    </section>
+
+    <section class="panel orientacion">
+      <h2>💡 Orientación</h2>
+      <p>
+        Hacé clic en cada materia para cambiar su estado. Las materias bloqueadas
+        requieren que apruebes sus correlativas anteriores. Usá el respaldo para
+        no perder tu avance.
+      </p>
+    </section>
+
+    <main id="contenedor-general"></main>
+
   </div>
-
-  <ul id="lista-finales-previos"></ul>
-
-  <div id="contenedor-general"></div>
 
   <script src="script.js"></script>
 </body>
