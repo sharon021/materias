@@ -71,6 +71,21 @@
     <main id="contenedor-general"></main>
 
   </div>
+  <div id="modal" class="modal oculto">
+  <div class="modal-contenido">
+    <button id="cerrarModal" class="cerrar">×</button>
+
+    <h2 id="modalTitulo"></h2>
+    <p id="modalInfo"></p>
+
+    <div class="modal-opciones">
+      <button data-estado="aprobada">✅ Materia aprobada</button>
+      <button data-estado="final-previo">📘 Final previo</button>
+      <button data-estado="cursando">🕘 Cursando materia</button>
+      <button data-estado="quitar">🗑 Quitar estado</button>
+    </div>
+  </div>
+</div>
 
   <script src="script.js"></script>
 </body>

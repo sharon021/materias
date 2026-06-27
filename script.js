@@ -427,132 +427,101 @@ function render() {
   actualizarResumen();
   mostrarFinalesProximos();
 }
-/* =========================
-   8. ACCIONES AL HACER CLICK
-   ========================= */
+let materiaSeleccionada = null;
+
+const modal = document.getElementById("modal");
+const modalTitulo = document.getElementById("modalTitulo");
+const modalInfo = document.getElementById("modalInfo");
+const cerrarModal = document.getElementById("cerrarModal");
 
 function clickMateria(materia) {
+  materiaSeleccionada = materia;
+
   const estadoActual = estadoMaterias[materia.id];
 
   const correlativas = obtenerCorrelativasDe(materia.id);
   const desbloquea = obtenerMateriasQueDesbloquea(materia.id);
 
   const textoCorrelativas = correlativas.length
-    ? correlativas.map((m) => `- ${m.nombre}`).join("\n")
-    : "- No tiene correlativas";
+    ? correlativas.map((m) => `• ${m.nombre}`).join("<br>")
+    : "No tiene correlativas";
 
   const textoDesbloquea = desbloquea.length
-    ? desbloquea.map((m) => `- ${m.nombre}`).join("\n")
-    : "- No desbloquea materias";
+    ? desbloquea.map((m) => `• ${m.nombre}`).join("<br>")
+    : "No desbloquea materias";
 
-  const mensaje = `
-Materia: ${materia.nombre}
+  modalTitulo.textContent = materia.nombre;
 
-Estado actual: ${obtenerEstadoTexto(estadoActual)}
+  modalInfo.innerHTML = `
+    <strong>Estado actual:</strong> ${obtenerEstadoTexto(estadoActual)}<br><br>
+    <strong>Correlativas:</strong><br>
+    ${textoCorrelativas}<br><br>
+    <strong>Desbloquea:</strong><br>
+    ${textoDesbloquea}
+  `;
 
-Correlativas:
-${textoCorrelativas}
+  modal.classList.remove("oculto");
+}
 
-Desbloquea:
-${textoDesbloquea}
+function cerrarModalMateria() {
+  modal.classList.add("oculto");
+  materiaSeleccionada = null;
+}
 
-Elegí una opción:
-1 - Marcar como aprobada
-2 - Marcar como final previo
-3 - Marcar como cursando
-4 - Quitar estado
-5 - Cancelar
-`;
+function aplicarEstado(estado) {
+  if (!materiaSeleccionada) return;
 
-  const opcion = prompt(mensaje);
+  if (estado === "quitar") {
+    delete estadoMaterias[materiaSeleccionada.id];
+  }
 
-  if (opcion === null || opcion === "5") return;
+  if (estado === "aprobada") {
+    const notaIngresada = prompt("Ingresá la nota final. Ejemplo: 7, 8, 9 o 10");
 
-  switch (opcion) {
-    case "1":
-      aprobarMateria(materia);
-      break;
+    if (notaIngresada === null) return;
 
-    case "2":
-      marcarFinalPrevio(materia);
-      break;
+    const nota = Number(notaIngresada.replace(",", "."));
 
-    case "3":
-      marcarCursando(materia);
-      break;
-
-    case "4":
-      quitarEstado(materia);
-      break;
-
-    default:
-      alert("Opción inválida.");
+    if (isNaN(nota) || nota < 1 || nota > 10) {
+      alert("Nota inválida. Debe ser un número entre 1 y 10.");
       return;
+    }
+
+    estadoMaterias[materiaSeleccionada.id] = {
+      estado: "aprobada",
+      nota,
+      fechaCarga: new Date().toISOString(),
+    };
+  }
+
+  if (estado === "final-previo") {
+    const fecha = prompt("Ingresá la fecha de vencimiento. Formato: YYYY-MM-DD");
+
+    if (fecha === null) return;
+
+    if (!validarFecha(fecha)) {
+      alert("Fecha inválida. Usá este formato: YYYY-MM-DD. Ejemplo: 2027-03-15");
+      return;
+    }
+
+    estadoMaterias[materiaSeleccionada.id] = {
+      estado: "final-previo",
+      fecha,
+      fechaCarga: new Date().toISOString(),
+    };
+  }
+
+  if (estado === "cursando") {
+    estadoMaterias[materiaSeleccionada.id] = {
+      estado: "cursando",
+      fechaCarga: new Date().toISOString(),
+    };
   }
 
   guardarEstado();
+  cerrarModalMateria();
   render();
 }
-
-function aprobarMateria(materia) {
-  const notaIngresada = prompt("Ingresá la nota final. Ejemplo: 7, 8, 9 o 10");
-
-  if (notaIngresada === null) return;
-
-  const nota = Number(notaIngresada.replace(",", "."));
-
-  if (isNaN(nota) || nota < 1 || nota > 10) {
-    alert("Nota inválida. Debe ser un número entre 1 y 10.");
-    return;
-  }
-
-  estadoMaterias[materia.id] = {
-    estado: "aprobada",
-    nota,
-    fechaCarga: new Date().toISOString(),
-  };
-
-  alert(`Materia "${materia.nombre}" marcada como aprobada.`);
-}
-
-function marcarFinalPrevio(materia) {
-  const fecha = prompt("Ingresá la fecha de vencimiento del final. Formato: YYYY-MM-DD");
-
-  if (fecha === null) return;
-
-  if (!validarFecha(fecha)) {
-    alert("Fecha inválida. Usá este formato: YYYY-MM-DD. Ejemplo: 2026-12-15");
-    return;
-  }
-
-  estadoMaterias[materia.id] = {
-    estado: "final-previo",
-    fecha,
-    fechaCarga: new Date().toISOString(),
-  };
-
-  alert(`Final previo de "${materia.nombre}" registrado.`);
-}
-
-function marcarCursando(materia) {
-  estadoMaterias[materia.id] = {
-    estado: "cursando",
-    fechaCarga: new Date().toISOString(),
-  };
-
-  alert(`Materia "${materia.nombre}" marcada como cursando.`);
-}
-
-function quitarEstado(materia) {
-  const confirmar = confirm(`¿Querés quitar el estado de "${materia.nombre}"?`);
-
-  if (!confirmar) return;
-
-  delete estadoMaterias[materia.id];
-
-  alert(`Estado de "${materia.nombre}" eliminado.`);
-}
-
 /* =========================
    9. EXPORTAR E IMPORTAR RESPALDO
    ========================= */
@@ -633,6 +602,22 @@ if (exportarBtn) {
 if (importarInput) {
   importarInput.addEventListener("change", importarEstado);
 }
+
+/* EVENTOS DEL MODAL */
+
+if (cerrarModal) {
+  cerrarModal.addEventListener("click", cerrarModalMateria);
+}
+
+if (modal) {
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) cerrarModalMateria();
+  });
+}
+
+document.querySelectorAll(".modal-opciones button").forEach((btn) => {
+  btn.addEventListener("click", () => aplicarEstado(btn.dataset.estado));
+});
 
 /* =========================
    11. INICIO
